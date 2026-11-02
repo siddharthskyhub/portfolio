@@ -214,3 +214,59 @@
     justify-content: left;
   }
 }
+
+
+.career-achievements {
+  margin-top: 80px;
+  width: 100%;
+}
+.career-achievements h3 {
+  font-size: 36px;
+  text-align: center;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 35px;
+}
+.career-achievements h3 span {
+  color: var(--accentColor);
+}
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+.achievement-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.achievement-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accentColor);
+  background: rgba(194, 164, 255, 0.06);
+}
+.achievement-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0 0 8px 0;
+}
+.achievement-card p {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+.achievement-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accentColor);
+  background: rgba(194, 164, 255, 0.12);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}

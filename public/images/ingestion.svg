@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081e24" />
+      <stop offset="50%" stop-color="#0f2e37" />
+      <stop offset="100%" stop-color="#051418" />
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="380" rx="16" fill="url(#bg5)" stroke="#115e59" stroke-width="2"/>
+  
+  <!-- Window Header -->
+  <rect x="0" y="0" width="600" height="42" rx="16" fill="#042f2e" />
+  <rect x="0" y="24" width="600" height="18" fill="#042f2e" />
+  <circle cx="24" cy="21" r="5" fill="#f43f5e" />
+  <circle cx="40" cy="21" r="5" fill="#fbbf24" />
+  <circle cx="56" cy="21" r="5" fill="#10b981" />
+  <text x="300" y="26" fill="#2dd4bf" font-family="'Geist', monospace, sans-serif" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="1">pipeline // high-throughput-vector-indexing</text>
+
+  <!-- Left: Ingestion Flow -->
+  <rect x="25" y="65" width="260" height="285" rx="12" fill="#042226" stroke="#134e4a" stroke-width="1.5" />
+  <text x="45" y="98" fill="#ccfbf1" font-family="'Geist', sans-serif" font-size="16" font-weight="700">Document Processing</text>
+  <text x="45" y="116" fill="#5eead4" font-family="'Geist', sans-serif" font-size="11">PDF, DOCX, TXT &amp; Markdown Engine</text>
+
+  <g transform="translate(45, 135)">
+    <rect x="0" y="0" width="220" height="36" rx="6" fill="#0f3b43" stroke="#2dd4bf" />
+    <text x="12" y="22" fill="#e0f2fe" font-family="'Geist', sans-serif" font-size="10" font-weight="600">1. Clean &amp; Extract AST Tokens</text>
+
+    <path d="M 110 36 L 110 46" stroke="#2dd4bf" stroke-width="2" fill="none" />
+
+    <rect x="0" y="46" width="220" height="36" rx="6" fill="#0f3b43" stroke="#2dd4bf" />
+    <text x="12" y="68" fill="#e0f2fe" font-family="'Geist', sans-serif" font-size="10" font-weight="600">2. Sliding-Window Paragraph Chunking</text>
+
+    <path d="M 110 82 L 110 92" stroke="#2dd4bf" stroke-width="2" fill="none" />
+
+    <rect x="0" y="92" width="220" height="36" rx="6" fill="#0f3b43" stroke="#2dd4bf" />
+    <text x="12" y="114" fill="#e0f2fe" font-family="'Geist', sans-serif" font-size="10" font-weight="600">3. nomic-embed-text Vectors (768d)</text>
+
+    <path d="M 110 128 L 110 138" stroke="#2dd4bf" stroke-width="2" fill="none" />
+
+    <rect x="0" y="138" width="220" height="42" rx="6" fill="#134e4a" stroke="#14b8a6" />
+    <text x="12" y="157" fill="#ffffff" font-family="'Geist', sans-serif" font-size="10" font-weight="700">4. FAISS + ChromaDB Index</text>
+    <text x="12" y="170" fill="#99f6e4" font-family="'Geist', sans-serif" font-size="9">Sub-millisecond cosine similarity</text>
+  </g>
+
+  <!-- Right: Storage & Sharding Details -->
+  <rect x="305" y="65" width="270" height="285" rx="12" fill="#042226" stroke="#134e4a" stroke-width="1.5" />
+  <text x="325" y="95" fill="#2dd4bf" font-family="'Geist', sans-serif" font-size="12" font-weight="700">VECTOR EMBEDDING STATS</text>
+
+  <g transform="translate(325, 115)">
+    <rect x="0" y="0" width="230" height="50" rx="6" fill="#082b30" stroke="#115e59" />
+    <text x="14" y="22" fill="#5eead4" font-family="'Geist', sans-serif" font-size="10" font-weight="600">Throughput</text>
+    <text x="14" y="38" fill="#ffffff" font-family="'Geist', sans-serif" font-size="14" font-weight="700">120+ pages / minute</text>
+
+    <rect x="0" y="60" width="230" height="50" rx="6" fill="#082b30" stroke="#115e59" />
+    <text x="14" y="82" fill="#5eead4" font-family="'Geist', sans-serif" font-size="10" font-weight="600">Vector Dimension</text>
+    <text x="14" y="98" fill="#ffffff" font-family="'Geist', sans-serif" font-size="14" font-weight="700">768 Dense Float32</text>
+
+    <rect x="0" y="120" width="230" height="50" rx="6" fill="#082b30" stroke="#115e59" />
+    <text x="14" y="142" fill="#5eead4" font-family="'Geist', sans-serif" font-size="10" font-weight="600">Dual Search Strategy</text>
+    <text x="14" y="158" fill="#ffffff" font-family="'Geist', sans-serif" font-size="14" font-weight="700">BM25 + Semantic Hybrid</text>
+
+    <!-- Tech tags -->
+    <g transform="translate(0, 185)">
+      <rect x="0" y="0" width="55" height="20" rx="4" fill="#134e4a"/><text x="27" y="14" fill="#ccfbf1" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">FAISS</text>
+      <rect x="62" y="0" width="65" height="20" rx="4" fill="#134e4a"/><text x="94" y="14" fill="#ccfbf1" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">ChromaDB</text>
+      <rect x="134" y="0" width="45" height="20" rx="4" fill="#134e4a"/><text x="156" y="14" fill="#ccfbf1" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">BM25</text>
+      <rect x="186" y="0" width="44" height="20" rx="4" fill="#134e4a"/><text x="208" y="14" fill="#ccfbf1" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">Python</text>
+    </g>
+  </g>
+</svg>

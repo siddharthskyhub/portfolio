@@ -3,6 +3,7 @@ import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EffectComposer, N8AO } from "@react-three/postprocessing";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   BallCollider,
   Physics,
@@ -128,27 +129,31 @@ const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
+    const handleCheck = () => {
+      const elem = document.getElementById("techstack");
+      if (!elem) return;
+      const rect = elem.getBoundingClientRect();
+      setIsActive(rect.top < window.innerHeight && rect.bottom > 0);
     };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
-      });
+
+    const trigger = ScrollTrigger.create({
+      trigger: "#techstack",
+      start: "top bottom",
+      end: "bottom top",
+      onEnter: () => setIsActive(true),
+      onEnterBack: () => setIsActive(true),
+      onLeave: () => setIsActive(false),
+      onLeaveBack: () => setIsActive(false),
     });
-    window.addEventListener("scroll", handleScroll);
+
+    handleCheck();
+    window.addEventListener("scroll", handleCheck);
+    window.addEventListener("resize", handleCheck);
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      trigger.kill();
+      window.removeEventListener("scroll", handleCheck);
+      window.removeEventListener("resize", handleCheck);
     };
   }, []);
   const materials = useMemo(() => {
@@ -167,7 +172,7 @@ const TechStack = () => {
   }, []);
 
   return (
-    <div className="techstack">
+    <div className="techstack" id="techstack">
       <h2> My Techstack</h2>
 
       <Canvas

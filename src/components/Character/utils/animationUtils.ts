@@ -9,19 +9,19 @@ const setAnimations = (gltf: GLTF) => {
     const introClip = gltf.animations.find(
       (clip) => clip.name === "introAnimation"
     );
-    const introAction = mixer.clipAction(introClip!);
-    introAction.setLoop(THREE.LoopOnce, 1);
-    introAction.clampWhenFinished = true;
-    introAction.play();
+    if (introClip) {
+      const introAction = mixer.clipAction(introClip);
+      introAction.setLoop(THREE.LoopOnce, 1);
+      introAction.clampWhenFinished = true;
+      introAction.play();
+    }
     const clipNames = ["key1", "key2", "key5", "key6"];
     clipNames.forEach((name) => {
       const clip = THREE.AnimationClip.findByName(gltf.animations, name);
       if (clip) {
         const action = mixer?.clipAction(clip);
-        action!.play();
-        action!.timeScale = 1.2;
-      } else {
-        console.error(`Animation "${name}" not found`);
+        action.play();
+        action.timeScale = 1.2;
       }
     });
     let typingAction: THREE.AnimationAction | null = null;
@@ -36,12 +36,16 @@ const setAnimations = (gltf: GLTF) => {
     const introClip = gltf.animations.find(
       (clip) => clip.name === "introAnimation"
     );
-    const introAction = mixer.clipAction(introClip!);
-    introAction.clampWhenFinished = true;
-    introAction.reset().play();
+    if (introClip) {
+      const introAction = mixer.clipAction(introClip);
+      introAction.clampWhenFinished = true;
+      introAction.reset().play();
+    }
     setTimeout(() => {
       const blink = gltf.animations.find((clip) => clip.name === "Blink");
-      mixer.clipAction(blink!).play().fadeIn(0.5);
+      if (blink) {
+        mixer.clipAction(blink).play().fadeIn(0.5);
+      }
     }, 2500);
   }
   function hover(gltf: GLTF, hoverDiv: HTMLDivElement) {
@@ -104,9 +108,11 @@ const filterAnimationTracks = (
   clip: THREE.AnimationClip,
   boneNames: string[]
 ): THREE.AnimationClip => {
-  const filteredTracks = clip.tracks.filter((track) =>
-    boneNames.some((boneName) => track.name.includes(boneName))
-  );
+  const cleanBoneNames = boneNames.map((b) => b.replace(/[._]/g, "").toLowerCase());
+  const filteredTracks = clip.tracks.filter((track) => {
+    const cleanTrack = track.name.replace(/[._]/g, "").toLowerCase();
+    return cleanBoneNames.some((boneName) => cleanTrack.includes(boneName));
+  });
 
   return new THREE.AnimationClip(
     clip.name + "_filtered",

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180e29" />
+      <stop offset="50%" stop-color="#24133b" />
+      <stop offset="100%" stop-color="#0e0717" />
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="380" rx="16" fill="url(#bg4)" stroke="#581c87" stroke-width="2"/>
+  
+  <!-- Window Header -->
+  <rect x="0" y="0" width="600" height="42" rx="16" fill="#190a2a" />
+  <rect x="0" y="24" width="600" height="18" fill="#190a2a" />
+  <circle cx="24" cy="21" r="5" fill="#f43f5e" />
+  <circle cx="40" cy="21" r="5" fill="#fbbf24" />
+  <circle cx="56" cy="21" r="5" fill="#10b981" />
+  <text x="300" y="26" fill="#e879f9" font-family="'Geist', monospace, sans-serif" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="1">guardrails // anti-hallucination-engine</text>
+
+  <!-- Left: Claims Matrix -->
+  <rect x="25" y="65" width="260" height="285" rx="12" fill="#11071f" stroke="#3b0764" stroke-width="1.5" />
+  <text x="45" y="98" fill="#f5d0fe" font-family="'Geist', sans-serif" font-size="16" font-weight="700">Citation Guardrails</text>
+  <text x="45" y="116" fill="#a855f7" font-family="'Geist', sans-serif" font-size="11">Sentence-Level Claim Verification</text>
+
+  <!-- Verification items -->
+  <g transform="translate(45, 130)">
+    <rect x="0" y="0" width="220" height="40" rx="6" fill="#1e1136" stroke="#10b981" stroke-width="1" />
+    <text x="12" y="24" fill="#34d399" font-family="monospace" font-size="10">✓ Claim 1: Verified in [Chunk 3]</text>
+  </g>
+  <g transform="translate(45, 178)">
+    <rect x="0" y="0" width="220" height="40" rx="6" fill="#1e1136" stroke="#10b981" stroke-width="1" />
+    <text x="12" y="24" fill="#34d399" font-family="monospace" font-size="10">✓ Claim 2: Verified in [Chunk 7]</text>
+  </g>
+  <g transform="translate(45, 226)">
+    <rect x="0" y="0" width="220" height="40" rx="6" fill="#3b0724" stroke="#f43f5e" stroke-width="1" />
+    <text x="12" y="24" fill="#fb7185" font-family="monospace" font-size="10">✗ Claim 3: Hallucinated Tool (Rejected)</text>
+  </g>
+
+  <rect x="45" y="278" width="220" height="55" rx="8" fill="#1d0d33" stroke="#a855f7" stroke-width="1" />
+  <text x="58" y="298" fill="#f5d0fe" font-family="'Geist', sans-serif" font-size="11" font-weight="700">Regeneration Pipeline Triggered</text>
+  <text x="58" y="315" fill="#c084fc" font-family="'Geist', sans-serif" font-size="9">Strict constraint re-prompt with context bounds</text>
+
+  <!-- Right: Faithfulness Metrics & Pytest -->
+  <rect x="305" y="65" width="270" height="285" rx="12" fill="#11071f" stroke="#3b0764" stroke-width="1.5" />
+  <text x="325" y="95" fill="#e879f9" font-family="'Geist', sans-serif" font-size="12" font-weight="700">EVALUATION METRICS</text>
+
+  <g transform="translate(325, 115)">
+    <!-- Faithfulness bar -->
+    <text x="0" y="15" fill="#f5d0fe" font-family="'Geist', sans-serif" font-size="10">Faithfulness Score</text>
+    <text x="210" y="15" fill="#34d399" font-family="monospace" font-size="10" text-anchor="end">0.97</text>
+    <rect x="0" y="22" width="210" height="8" rx="4" fill="#2d134d" />
+    <rect x="0" y="22" width="200" height="8" rx="4" fill="#10b981" />
+
+    <!-- Answer Relevance bar -->
+    <text x="0" y="55" fill="#f5d0fe" font-family="'Geist', sans-serif" font-size="10">Context Grounding</text>
+    <text x="210" y="55" fill="#c084fc" font-family="monospace" font-size="10" text-anchor="end">0.94</text>
+    <rect x="0" y="62" width="210" height="8" rx="4" fill="#2d134d" />
+    <rect x="0" y="62" width="195" height="8" rx="4" fill="#c084fc" />
+
+    <!-- Pytest Terminal Box -->
+    <rect x="0" y="90" width="230" height="95" rx="8" fill="#0d0417" stroke="#4c1d95" />
+    <text x="12" y="110" fill="#34d399" font-family="monospace" font-size="10">$ pytest tests/test_guardrails.py</text>
+    <text x="12" y="128" fill="#94a3b8" font-family="monospace" font-size="9">test_unsupported_claim_rejection PASSED</text>
+    <text x="12" y="144" fill="#94a3b8" font-family="monospace" font-size="9">test_citation_anchor_consistency PASSED</text>
+    <text x="12" y="160" fill="#94a3b8" font-family="monospace" font-size="9">test_metric_number_verification   PASSED</text>
+    <text x="12" y="174" fill="#34d399" font-family="monospace" font-size="9">===== 18 passed in 1.42s =====</text>
+
+    <!-- Tech tags -->
+    <g transform="translate(0, 200)">
+      <rect x="0" y="0" width="55" height="20" rx="4" fill="#3b0764"/><text x="27" y="14" fill="#f5d0fe" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">Pytest</text>
+      <rect x="62" y="0" width="60" height="20" rx="4" fill="#3b0764"/><text x="92" y="14" fill="#f5d0fe" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">LangChain</text>
+      <rect x="129" y="0" width="50" height="20" rx="4" fill="#3b0764"/><text x="154" y="14" fill="#f5d0fe" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">Eval</text>
+      <rect x="186" y="0" width="44" height="20" rx="4" fill="#3b0764"/><text x="208" y="14" fill="#f5d0fe" font-size="9" font-family="'Geist', sans-serif" text-anchor="middle">Python</text>
+    </g>
+  </g>
+</svg>
