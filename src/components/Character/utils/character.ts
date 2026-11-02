@@ -19,6 +19,7 @@ const setCharacter = (
       try {
         const handleSuccess = async (gltf: GLTF) => {
           let character = gltf.scene;
+          (window as any).__character__ = character;
           await renderer.compileAsync(character, camera, scene);
           character.traverse((child: any) => {
             if (child.isMesh) {
@@ -28,6 +29,33 @@ const setCharacter = (
               mesh.frustumCulled = true;
             }
           });
+
+          // Setup Legion logo on the back of the monitor
+          const monitor =
+            character.getObjectByName("Plane.004") ||
+            character.getObjectByName("Plane004");
+          if (monitor) {
+            const textureLoader = new THREE.TextureLoader();
+            const legionTexture = textureLoader.load("/images/legion_logo.png");
+            legionTexture.colorSpace = THREE.SRGBColorSpace;
+
+            const logoWidth = 2.6;
+            const logoHeight = logoWidth / 2.79;
+            const logoGeo = new THREE.PlaneGeometry(logoWidth, logoHeight);
+            const logoMat = new THREE.MeshBasicMaterial({
+              map: legionTexture,
+              transparent: true,
+              opacity: 0.95,
+              side: THREE.DoubleSide,
+              depthTest: true,
+            });
+            const logoMesh = new THREE.Mesh(logoGeo, logoMat);
+            logoMesh.name = "legionLogo";
+            // Position on the back casing of the monitor
+            logoMesh.position.set(0, 2.7, 0.45);
+            monitor.add(logoMesh);
+          }
+
           resolve(gltf);
           setCharTimeline(character, camera);
           setAllTimeline();

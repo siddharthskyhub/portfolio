@@ -103,6 +103,8 @@ export function setCharTimeline(
         tl2.to(neckBone.rotation, { x: 0.6, delay: 2, duration: 3 }, 0);
       }
       if (monitor) {
+        const targetY = 9.04058;
+        const targetZ = 5.11855;
         if (Array.isArray(monitor.material)) {
           monitor.material.forEach((mat: any) => {
             tl2.to(mat, { opacity: 1, duration: 0.8, delay: 3.2 }, 0);
@@ -112,8 +114,8 @@ export function setCharTimeline(
         }
         tl2.fromTo(
           monitor.position,
-          { y: -10, z: 2 },
-          { y: 0, z: 0, delay: 1.5, duration: 3 },
+          { y: targetY - 6, z: targetZ + 2 },
+          { y: targetY, z: targetZ, delay: 1.5, duration: 3 },
           0
         );
       }
