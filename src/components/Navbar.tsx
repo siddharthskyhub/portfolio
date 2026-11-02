@@ -10,11 +10,16 @@ export let smoother: ScrollSmoother;
 
 const Navbar = () => {
   useEffect(() => {
+    const existing = ScrollSmoother.get();
+    if (existing) {
+      existing.kill();
+    }
+
     smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
+      smooth: 1.2,
+      speed: 1,
       effects: true,
       autoResize: true,
       ignoreMobileResize: true,
@@ -22,6 +27,8 @@ const Navbar = () => {
 
     smoother.scrollTop(0);
     smoother.paused(true);
+    (window as any).smoother = smoother;
+    (window as any).ScrollTrigger = ScrollTrigger;
 
     let links = document.querySelectorAll(".header ul a");
     links.forEach((elem) => {
@@ -35,9 +42,14 @@ const Navbar = () => {
         }
       });
     });
-    window.addEventListener("resize", () => {
-      ScrollSmoother.refresh(true);
-    });
+    const handleResize = () => {
+      smoother?.refresh();
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
   return (
     <>

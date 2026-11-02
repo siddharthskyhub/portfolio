@@ -66,18 +66,33 @@ const Work = () => {
       if (!boxes || boxes.length === 0 || !workFlex || !workContainer) return 0;
 
       const lastBox = boxes[boxes.length - 1] as HTMLElement;
-      const containerLeft = workContainer.getBoundingClientRect().left;
-      // Start position of lastBox relative to the viewport:
-      const lastBoxStartLeft = containerLeft - 80 + lastBox.offsetLeft;
-      // Desired final position of lastBox: comfortably centered in the viewport
-      const desiredLeft = Math.max((window.innerWidth - lastBox.offsetWidth) / 2, 80);
-      const scrollAmount = lastBoxStartLeft - desiredLeft;
+      const containerWidth = workContainer.offsetWidth;
+      const containerLeft = (window.innerWidth - containerWidth) / 2;
+      const flexMarginLeft = parseFloat(getComputedStyle(workFlex).marginLeft) || -80;
+      const targetCenter = (window.innerWidth - lastBox.offsetWidth) / 2;
+      const lastBoxInitialLeft = containerLeft + flexMarginLeft + lastBox.offsetLeft;
+      const distanceToCenter = lastBoxInitialLeft - targetCenter;
 
-      return Math.max(scrollAmount, lastBox.offsetLeft);
+      return Math.max(distanceToCenter, 100);
     }
 
     if (window.innerWidth > 1024) {
-      const holdDistance = Math.max(window.innerHeight * 0.45, 350);
+      // 1. Kill any existing work trigger with revert=true so it never leaves dead pin-spacers
+      ScrollTrigger.getById("work")?.kill(true);
+
+      // 2. Safety unwrap of any orphaned pin-spacers wrapping .work-section
+      const workEl = document.querySelector(".work-section");
+      while (
+        workEl &&
+        workEl.parentElement &&
+        workEl.parentElement.classList.contains("pin-spacer")
+      ) {
+        const spacer = workEl.parentElement;
+        spacer.parentNode?.insertBefore(workEl, spacer);
+        spacer.parentNode?.removeChild(spacer);
+      }
+
+      const holdDistance = 500;
 
       const timeline = gsap.timeline({
         scrollTrigger: {
@@ -86,19 +101,21 @@ const Work = () => {
           end: () => `+=${getScrollAmount() + holdDistance}`,
           scrub: 1,
           pin: true,
+          pinType: !ScrollTrigger.isTouch ? "transform" : "fixed",
+          anticipatePin: 1,
           invalidateOnRefresh: true,
           id: "work",
         },
       });
 
-      // 1. Smoothly slide across all projects until Card 06 is fully centered
+      // Smoothly slide across all projects until Card 06 is fully centered
       timeline.to(".work-flex", {
         x: () => -getScrollAmount(),
         ease: "none",
         duration: 4,
       });
 
-      // 2. Buffer hold: keep Card 06 cleanly in view before unpinning to next section
+      // Buffer hold: keep Card 06 cleanly in view before unpinning to next section
       timeline.to(
         {},
         {
@@ -118,8 +135,24 @@ const Work = () => {
       });
 
       return () => {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill(true);
+        }
         timeline.kill();
-        ScrollTrigger.getById("work")?.kill();
+        const st = ScrollTrigger.getById("work");
+        if (st) {
+          st.kill(true);
+        }
+        const el = document.querySelector(".work-section");
+        while (
+          el &&
+          el.parentElement &&
+          el.parentElement.classList.contains("pin-spacer")
+        ) {
+          const parent = el.parentElement;
+          parent.parentNode?.insertBefore(el, parent);
+          parent.parentNode?.removeChild(parent);
+        }
         images.forEach((img) => img.removeEventListener("load", handleImgLoad));
       };
     }

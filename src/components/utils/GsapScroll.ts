@@ -1,16 +1,22 @@
 import * as THREE from "three";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
   camera: THREE.PerspectiveCamera
 ) {
+  ScrollTrigger.getById("char-tl1")?.kill();
+  ScrollTrigger.getById("char-tl2")?.kill();
+  ScrollTrigger.getById("char-tl3")?.kill();
+
   let intensity: number = 0;
   setInterval(() => {
     intensity = Math.random();
   }, 200);
   const tl1 = gsap.timeline({
     scrollTrigger: {
+      id: "char-tl1",
       trigger: ".landing-section",
       start: "top top",
       end: "bottom top",
@@ -20,6 +26,7 @@ export function setCharTimeline(
   });
   const tl2 = gsap.timeline({
     scrollTrigger: {
+      id: "char-tl2",
       trigger: ".about-section",
       start: "center 55%",
       end: "bottom top",
@@ -29,6 +36,7 @@ export function setCharTimeline(
   });
   const tl3 = gsap.timeline({
     scrollTrigger: {
+      id: "char-tl3",
       trigger: ".whatIDO",
       start: "top top",
       end: "bottom top",
@@ -135,8 +143,11 @@ export function setCharTimeline(
 }
 
 export function setAllTimeline() {
+  ScrollTrigger.getById("careerTimeline")?.kill();
+
   const careerTimeline = gsap.timeline({
     scrollTrigger: {
+      id: "careerTimeline",
       trigger: ".career-section",
       start: "top 30%",
       end: "100% center",
@@ -179,7 +190,7 @@ export function setAllTimeline() {
     careerTimeline.fromTo(
       ".career-section",
       { y: 0 },
-      { y: "20%", duration: 0.5, delay: 0.2 },
+      { y: 0, duration: 0.5, delay: 0.2 },
       0
     );
   } else {
