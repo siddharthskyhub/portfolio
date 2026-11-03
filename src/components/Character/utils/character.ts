@@ -39,7 +39,7 @@ const setCharacter = (
             const legionTexture = textureLoader.load("/images/legion_logo.png");
             legionTexture.colorSpace = THREE.SRGBColorSpace;
 
-            const logoWidth = 2.6;
+            const logoWidth = 1.35;
             const logoHeight = logoWidth / 2.79;
             const logoGeo = new THREE.PlaneGeometry(logoWidth, logoHeight);
             const logoMat = new THREE.MeshBasicMaterial({
@@ -51,8 +51,8 @@ const setCharacter = (
             });
             const logoMesh = new THREE.Mesh(logoGeo, logoMat);
             logoMesh.name = "legionLogo";
-            // Position on the back casing of the monitor
-            logoMesh.position.set(0, 2.7, 0.45);
+            // Position on the back casing of the monitor (centered horizontally and sized like a real logo)
+            logoMesh.position.set(-0.92, 2.7, 0.45);
             monitor.add(logoMesh);
           }
 
